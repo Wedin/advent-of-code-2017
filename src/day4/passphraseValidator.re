@@ -11,7 +11,7 @@ let hasOneOccurenceOfEachWord = (words) => {
 };
 
 let isValid = (passphrase: string) : bool => {
-  Js.String.split(" ", passphrase) |> hasOneOccurenceOfEachWord;
+  Js.String.split(" ", passphrase) |> Array.to_list |> List.filter(x => String.length(x) > 0) |> hasOneOccurenceOfEachWord;
 };
 
 
@@ -26,4 +26,4 @@ let run = () => {
   validPassphrases;
 };
 
-run();
+/*run();*/
