@@ -8,7 +8,6 @@ let minMaxDiff = (rowInput) => {
     | row => {
       let rowMin = Array.fold_left(min, 99999999999999999, row);
       let rowMax = Array.fold_left(max, 0, row);
-      Js.log(rowMax - rowMin);
       rowMax - rowMin;
     };
   };
