@@ -12,25 +12,41 @@ let input_to_int_list = (path : string) => {
   inner(Array.to_list(instructions), []);
 };
 
-let rec step = (numSteps:int, index:int, instructions : array(int)) : int =>  {
+let rec step = (numSteps:int, index:int, instructions : array(int), modifier) : int =>  {
   switch (Array.get(instructions, index)) {
     | currentInstruction => {
-      instructions[index] = instructions[index] + 1;
-      step(numSteps + 1, currentInstruction + index, instructions);
+      /* instructions[index] = instructions[index] + 1; */
+      instructions[index] = modifier(instructions[index]);
+      step(numSteps + 1, currentInstruction + index, instructions, modifier);
     };
     | exception Invalid_argument("index out of bounds") => numSteps;
   }
 };
 
-let countSteps = (instructions: array(int)) :int => {
-  step(0, 0, instructions);
+let countSteps = (instructions: array(int), modifier) :int => {
+  step(0, 0, instructions, modifier);
+};
+
+let addOneModifier = (elem) => {
+  elem + 1;
+};
+
+let strangeJumpModifier = (elem) => {
+  elem >= 3 ? elem - 1 : elem + 1;
 };
 
 let run = () => {
   let instructions = "./src/day5/input.txt" |> input_to_int_list |> Array.of_list;
-  let numSteps = countSteps(instructions);
+  let numSteps = countSteps(instructions, addOneModifier);
   Js.log(numSteps);
   numSteps;
 };
 
-/*run();*/
+let run_step2 = () => {
+  let instructions = "./src/day5/input.txt" |> input_to_int_list |> Array.of_list;
+  let numSteps = countSteps(instructions, strangeJumpModifier);
+  Js.log(numSteps);
+  numSteps;
+};
+
+/* run_step2(); */
