@@ -25,7 +25,6 @@ let bottomTower = (input: string) => {
         };
         Js.String.length(inChildren) == 0;
     }, prgs);
-    Js.log(root);
     root;
 };
 
