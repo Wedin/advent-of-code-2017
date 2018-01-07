@@ -1,6 +1,6 @@
 module InstructionsDb = Map.Make(String);
 
-let highestEver = ref(0);
+let highestEver = ref(min_int);
 
 type instruction = {
     register: string,
