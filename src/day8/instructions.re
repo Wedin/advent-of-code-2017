@@ -1,5 +1,7 @@
 module InstructionsDb = Map.Make(String);
 
+let highestEver = ref(0);
+
 type instruction = {
     register: string,
     modifier: (int, int) => int,
@@ -70,23 +72,29 @@ let printMap = (map) => {
     InstructionsDb.iter(printMapLine, map);
 };
 
-let runInstructions = (instructions, registers) => {
-    List.fold_left((registers, instruction) => {
-        /* Js.log(instruction); */
-        let targetRegisterValue = InstructionsDb.find(instruction.target_register, registers);
-        let registerValue = InstructionsDb.find(instruction.register, registers);
-        if (instruction.comparer(targetRegisterValue, instruction.target_value)) {
-            InstructionsDb.add(instruction.register, instruction.modifier(registerValue, instruction.modifier_amount), registers)
-        } else {
-            registers;
-        };
-    }, registers, instructions);
-};
-
 let findHigest = (registers) => {
     InstructionsDb.bindings(registers)
         |> List.map(((_, value)) => value)
         |> List.fold_left(max, min_int);
+};
+
+let runInstructions = (instructions, registers) => {
+
+    List.fold_left((registers, instruction) => {
+
+        let currentHigest = findHigest(registers);
+        if (currentHigest > highestEver^) {
+            highestEver := currentHigest;
+        };
+
+        let targetRegisterValue = InstructionsDb.find(instruction.target_register, registers);
+        let registerValue = InstructionsDb.find(instruction.register, registers);
+        if (instruction.comparer(targetRegisterValue, instruction.target_value)) {
+            InstructionsDb.add(instruction.register, instruction.modifier(registerValue, instruction.modifier_amount), registers);
+        } else {
+            registers;
+        };
+    }, registers, instructions);
 };
 
 let runPath = (path: string) => {
@@ -99,6 +107,7 @@ let runPath = (path: string) => {
 let run = () => {
     let highest = runPath("./src/day8/input.txt");
     Js.log(highest);
+    Js.log(highestEver^);
 };
 
-run();
+/* run(); */
