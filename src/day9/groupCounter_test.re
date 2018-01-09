@@ -23,7 +23,7 @@ describe("Count groups", () => {
   test("{{<!!>},{<!!>},{<!!>},{<!!>}} has score 1", () =>
     expect(GroupCounter.score("{{<!!>},{<!!>},{<!!>},{<!!>}}")) |> toEqual(9)
   );
-  /* test("{{<a!>},{<a!>},{<a!>},{<ab>}} has score 1", () =>
+  test("{{<a!>},{<a!>},{<a!>},{<ab>}} has score 1", () =>
     expect(GroupCounter.score("{{<a!>},{<a!>},{<a!>},{<ab>}}")) |> toEqual(3)
-  ); */
+  );
 });
